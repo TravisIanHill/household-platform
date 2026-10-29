@@ -1,0 +1,13 @@
+# Family Drive Catalog — read-only Mac first version
+
+Extract this folder on your Mac (not a NAS). Requires Python 3, with no third-party Python dependencies. Python may already be available; check `python3 --version` in Terminal. If it is absent, install Python 3 from python.org.
+
+To launch, open Terminal, type `bash ` (with a trailing space), drag Start-Catalog.command into Terminal, then press Return. A local browser opens. Keep Terminal open while scanning. If macOS requests removable-volume access, grant access to the drive being scanned. macOS may also require Terminal access to protected locations. The server listens only on 127.0.0.1, port 8765; it is not exposed to the LAN.
+
+Choose the external volume, give it a recognizable label and start. Quick inventory records paths, extensions, size, modification timestamp and coarse categories. Enable SHA-256 to read all file contents for exact matching; large drives take hours. Cancel stops between files or hash chunks. Leave the drive attached until the scan is complete or canceled. Then unplug normally. Reopen the launcher any time to browse historical catalogs.
+
+Inventory/database stays in `~/Library/Application Support/FamilyDriveCatalog/catalog.sqlite` plus SQLite sidecar files. Back up that directory with the application stopped. Full JSON export is available for every scan. Catalogs contain private filenames and paths: treat exports accordingly.
+
+This version does not copy/import files, delete/quarantine files, read EXIF/video metadata, make thumbnails, infer owners, detect visual similarity or check saved links. Extension categorization is a suggestion, not actual content format detection. Future iterations will add those functions. Executables are never executed. Symlink targets and .Spotlight-V100/.fseventsd/.Trashes folders are excluded. Files that fail or change during hashing remain unverified. Quick scans cannot establish uniqueness. Exact matches are SHA-256-based; latest scans per recognized volume are used for cross-volume comparison, but historic locations must be reverified before cleanup. Same-volume hard links can appear as multiple catalog paths and do not necessarily consume duplicate physical space. Unknown volume IDs cannot reliably distinguish rescans; reverify matches. Server matching requires importing its inventory in a future version.
+
+The UI shows the largest 500 search results; full exports include all entries. No current scan resume; a canceled scan retains processed entries and you can start a new scan. Browser interface and macOS-specific disk identification need validation on your Mac; core scanning tested separately.

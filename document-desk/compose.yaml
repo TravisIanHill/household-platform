@@ -1,0 +1,22 @@
+services:
+  document-desk:
+    build: .
+    container_name: document-desk
+    restart: unless-stopped
+    ports:
+      - "8092:8080"
+    environment:
+      SESSION_SECRET: ${SESSION_SECRET:?Run setup first}
+      PASSWORD_HASH: ${PASSWORD_HASH:?Run setup first}
+      DOCUMENT_ROOT: /documents
+      STATE_ROOT: /state
+    volumes:
+      - /mnt/user/documents/document-desk:/documents
+      - /mnt/user/appdata/document-desk/state:/state
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp:size=256m,mode=1777
